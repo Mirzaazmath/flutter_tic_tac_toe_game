@@ -43,7 +43,32 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Expanded(flex: 1, child: Container()),
+              Expanded(flex: 1, child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    children: [
+                      Text("Player X",style: Theme.of(context)
+                          .textTheme
+                          .headlineLarge?.copyWith(color: Colors.white),),
+                     const  SizedBox(height: 10,),
+                      Text("$xCount",style: Theme.of(context)
+                          .textTheme
+                          .displaySmall?.copyWith(color: Colors.white),)
+                    ],
+                  ), Column(
+                    children: [
+                      Text("Player O",style: Theme.of(context)
+                          .textTheme
+                          .headlineLarge?.copyWith(color: Colors.white),),
+                      const  SizedBox(height: 10,),
+                      Text("$oCount",style: Theme.of(context)
+                          .textTheme
+                          .displaySmall?.copyWith(color: Colors.white),)
+                    ],
+                  )
+                ],
+              )),
 
               /// ***** Game Board Area ******* ///
               Expanded(
