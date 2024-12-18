@@ -62,6 +62,7 @@ flutter:
   assets:
     - assets/
     - assets/fonts/
+    - assets/audios/
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
