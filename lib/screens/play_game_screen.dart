@@ -34,6 +34,9 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   int xCount = 0;
   int oCount = 0;
 
+  /// Here we are Creating a variable to freeze the game as soon as anyone wins
+  bool freezeGame = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,38 +76,41 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
               /// ***** Game Board Area ******* ///
               Expanded(
                   flex: 3,
-                  child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: displayXO.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 3),
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () {
-                            _tapped(index);
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                border: Border.all(
-                                    width: 5,
-                                    color: Theme.of(context).primaryColor),
-                                color: Theme.of(context).primaryColorLight),
-                            alignment: Alignment.center,
-                            child: Text(
-                              displayXO[index],
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayLarge
-                                  ?.copyWith(
-                                      color: Theme.of(context).primaryColor,
-                                      fontWeight: FontWeight.bold),
+                  child: AbsorbPointer(
+                    absorbing: freezeGame,
+                    child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: displayXO.length,
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3),
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              _tapped(index);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(
+                                      width: 5,
+                                      color: Theme.of(context).primaryColor),
+                                  color: Theme.of(context).primaryColorLight),
+                              alignment: Alignment.center,
+                              child: Text(
+                                displayXO[index],
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .displayLarge
+                                    ?.copyWith(
+                                        color: Theme.of(context).primaryColor,
+                                        fontWeight: FontWeight.bold),
+                              ),
                             ),
-                          ),
-                        );
-                      })),
+                          );
+                        }),
+                  )),
               Expanded(flex: 1, child: Container()),
             ],
           ),
@@ -221,11 +227,15 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       /// Here we are checking The Draw (means nobody wins)
     } else if (indexList.length == 9) {
       winner = "Draw";
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame=true;
     }
     setState(() {});
   }
 /// Here we are Incrementing the winner count
   void _updateWinnerResult(String winner) {
+    /// Here we are freezing the game as soon as anyOne wins
+    freezeGame=true;
     if (winner == "X") {
       xCount++;
       /// Increase X win Counts
@@ -234,4 +244,5 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       /// Increase O win Counts
     }
   }
+
 }
