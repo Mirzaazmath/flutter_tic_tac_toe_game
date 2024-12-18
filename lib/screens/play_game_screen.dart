@@ -111,13 +111,19 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                           );
                         }),
                   )),
-              Expanded(flex: 1, child: Container()),
+              Expanded(flex: 1, child: Center(
+                child: freezeGame? ElevatedButton(
+                  onPressed:_clearBoard,
+                  child: const Text("Play Again!",),
+                ):const SizedBox()
+              )),
             ],
           ),
         ),
       ),
     );
   }
+
 
   void _tapped(int index) {
     /// Here we are checking the index contains in the list or not
@@ -243,6 +249,24 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       oCount++;
       /// Increase O win Counts
     }
+  }
+  void _clearBoard(){
+    setState(() {
+      /// Here we are Loping and clearing the board
+      for(int i =0;i<9;i++){
+        displayXO[i]="";
+      }
+      /// Here we are Clearing our winner also
+      winner="";
+      /// Here we are clearing our indexList also
+      indexList=[];
+      /// Here we are unFreezing the game
+      freezeGame =false;
+      /// Here we are again setting the Turn to X
+      xTurn =true;
+    });
+
+
   }
 
 }
