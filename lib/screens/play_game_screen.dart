@@ -20,12 +20,14 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
     "",
     "",
   ];
-  /// Here we have created a indexList variable to store index's of our board to avoid overrides
+  /// Here we have creating a indexList variable to store index's of our board to avoid overrides
   List<int> indexList = [];
 
-  /// Here we are Creating a Bool Variable to handle the turns of Players
+  /// Here we are creating a bool variable to handle the turns of Players
   bool xTurn = true;
-  int newVal = 0;
+  /// Here we are Creating a variable to store and handle the winner
+  String winner="";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -109,6 +111,38 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   }
 
   void _checkWinner(){
+
+    /// row
+    if(displayXO[0]==displayXO[1]&&displayXO[1]==displayXO[2]&&displayXO[0]!=""){
+      winner=displayXO[0];
+      /// row
+    }else if(displayXO[3]==displayXO[4]&&displayXO[4]==displayXO[5]&&displayXO[3]!=""){
+      winner=displayXO[3];
+      /// row
+    }else if(displayXO[6]==displayXO[7]&&displayXO[7]==displayXO[8]&&displayXO[6]!=""){
+      winner=displayXO[6];
+      /// column
+    }else if(displayXO[0]==displayXO[3]&&displayXO[3]==displayXO[6]&&displayXO[0]!=""){
+      winner=displayXO[0];
+      /// column
+    }else if(displayXO[1]==displayXO[4]&&displayXO[4]==displayXO[7]&&displayXO[1]!=""){
+      winner=displayXO[1];
+      /// column
+    }else if(displayXO[2]==displayXO[5]&&displayXO[5]==displayXO[8]&&displayXO[2]!=""){
+      winner=displayXO[2];
+      /// diagonal
+    }else if(displayXO[0]==displayXO[4]&&displayXO[4]==displayXO[8]&&displayXO[0]!=""){
+      winner=displayXO[0];
+      /// diagonal
+    }else if(displayXO[2]==displayXO[4]&&displayXO[4]==displayXO[6]&&displayXO[2]!=""){
+      winner=displayXO[2];
+    }else if(indexList.length==9) {
+      winner = "Draw";
+    }
+    setState(() {
+
+    });
+    print("Winner is $winner");
 
   }
 }
