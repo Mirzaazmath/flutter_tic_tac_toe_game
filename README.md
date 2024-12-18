@@ -6,12 +6,18 @@ A new Flutter project.
 
 ### Branches In Order
 * project_resources
+* project_ui
 * 
 
 
 ## project_resources
 
 This Branch is a first branch contains all resources that required to build this app (like fonts, audios) are added in this branch and later merge with main branch)
+
+
+## project_ui
+
+This Branch is a second branch contains all UI elements that required to build this app (like Game PLay Area) are added in this branch and later merge with main branch)
 
 
 
