@@ -1,4 +1,5 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 
 class PlayGameScreen extends StatefulWidget {
@@ -42,19 +43,22 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   List<int> winnerPattern = [];
 
   /// Here we are Instance or Object of audio Player to play music
-  final audioPlayer = AudioPlayer();
+  final _audioPlayer = AudioPlayer();
 
   /// Here we are Creating a bool Variable to delay some time for player turn
   bool isDelayed = false;
+  /// Here we are Creating a ConfettiController to handle confetti effect for win
+  final ConfettiController _confettiController= ConfettiController(duration:const  Duration(milliseconds: 1000));
 
   @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
 
-    /// Here we are disposing the audioPlayer instance if we are not using this screen
+    /// Here we are disposing the controllers instance if we are not using this screen
     /// to avoid memory leaks
-    audioPlayer.dispose();
+    _audioPlayer.dispose();
+    _confettiController.dispose();
   }
 
   @override
@@ -62,118 +66,124 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              Expanded(
-                  flex: 1,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Player X",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineLarge
-                                ?.copyWith(color: Colors.white),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "$xCount",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.copyWith(color: Colors.white),
-                          )
-                        ],
-                      ),
-                      Column(
-                        children: [
-                          Text(
-                            "Player O",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineLarge
-                                ?.copyWith(color: Colors.white),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "$oCount",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.copyWith(color: Colors.white),
-                          )
-                        ],
-                      )
-                    ],
-                  )),
 
-              /// ***** Game Board Area ******* ///
-              Expanded(
-                  flex: 3,
-                  child: AbsorbPointer(
-                    absorbing: freezeGame || isDelayed,
-                    child: GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: displayXO.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 3),
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              _tapped(index);
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  border: Border.all(
-                                      width: 5,
-                                      color: Theme.of(context).primaryColor),
-                                  color: winnerPattern.contains(index)
-                                      ? Theme.of(context).primaryColorDark
-                                      : Theme.of(context).primaryColorLight),
-                              alignment: Alignment.center,
-                              child: Text(
-                                displayXO[index],
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .displayLarge
-                                    ?.copyWith(
-                                        color: Theme.of(context).primaryColor,
-                                        fontWeight: FontWeight.bold),
-                              ),
+        child: ConfettiWidget(
+          confettiController: _confettiController,
+          emissionFrequency: 0.6,
+          blastDirectionality: BlastDirectionality.explosive,
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              "Player X",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineLarge
+                                  ?.copyWith(color: Colors.white),
                             ),
-                          );
-                        }),
-                  )),
-              Expanded(
-                  flex: 1,
-                  child: Column(
-                    children: [
-                      freezeGame ?const SizedBox(): Text("Player  ${isDelayed?"...": xTurn?"X turn":"O turn"}",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
-                     const  SizedBox(height: 10,),
-                      Center(
-                          child: freezeGame
-                              ? ElevatedButton(
-                                  onPressed: _clearBoard,
-                                  child: const Text(
-                                    "Play Again!",
-                                  ),
-                                )
-                              : const SizedBox()),
-                    ],
-                  )),
-            ],
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "$xCount",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall
+                                  ?.copyWith(color: Colors.white),
+                            )
+                          ],
+                        ),
+                        Column(
+                          children: [
+                            Text(
+                              "Player O",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineLarge
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "$oCount",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall
+                                  ?.copyWith(color: Colors.white),
+                            )
+                          ],
+                        )
+                      ],
+                    )),
+
+                /// ***** Game Board Area ******* ///
+                Expanded(
+                    flex: 3,
+                    child: AbsorbPointer(
+                      absorbing: freezeGame || isDelayed,
+                      child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: displayXO.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 3),
+                          itemBuilder: (context, index) {
+                            return GestureDetector(
+                              onTap: () {
+                                _tapped(index);
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    border: Border.all(
+                                        width: 5,
+                                        color: Theme.of(context).primaryColor),
+                                    color: winnerPattern.contains(index)
+                                        ? Theme.of(context).primaryColorDark
+                                        : Theme.of(context).primaryColorLight),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  displayXO[index],
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge
+                                      ?.copyWith(
+                                          color: Theme.of(context).primaryColor,
+                                          fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            );
+                          }),
+                    )),
+                Expanded(
+                    flex: 1,
+                    child: Column(
+                      children: [
+                        freezeGame ?const SizedBox(): Text("Player  ${isDelayed?"...": xTurn?"X turn":"O turn"}",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Colors.white),),
+                       const  SizedBox(height: 10,),
+                        Center(
+                            child: freezeGame
+                                ? ElevatedButton(
+                                    onPressed: _clearBoard,
+                                    child: const Text(
+                                      "Play Again!",
+                                    ),
+                                  )
+                                : const SizedBox()),
+                      ],
+                    )),
+              ],
+            ),
           ),
         ),
       ),
@@ -183,8 +193,9 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   void _tapped(int index) async {
     /// Here we are checking the index contains in the list or not
     if (!indexList.contains(index)) {
-      audioPlayer.stop();
-      await audioPlayer.play(AssetSource('audios/write.mp3'));
+      _audioPlayer.stop();
+      await _audioPlayer.play(AssetSource('audios/write.mp3'));
+
 
       /// if Not
       setState(() {
@@ -330,6 +341,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
   /// Here we are Incrementing the winner count
   void _updateWinnerResult(String winner) {
+    _confettiController.play();
     /// Here we are freezing the game as soon as anyOne wins
     freezeGame = true;
     if (winner == "X") {
