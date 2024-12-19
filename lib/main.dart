@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
+import 'package:tic_tac_toe_game/screens/splash_Screen.dart';
 
 void main(){
   runApp(const MyApp());
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         primaryColorLight:const  Color(0xffffca27),
         primaryColorDark: const Color(0xff4169e8)
       ),
-      home: const PlayGameScreen(),
+      home: const SplashScreen(),
     );
   }
 }
