@@ -201,6 +201,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   void _tapped(int index) async {
     /// Here we are checking the index contains in the list or not
     if (!indexList.contains(index)) {
+      /// Here we are Playing Write sound effect and stopping  previous sounds
       _audioPlayer.stop();
       await _audioPlayer.play(AssetSource('audios/write.mp3'));
 
@@ -239,7 +240,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
     }
   }
 
-  void _checkWinner() {
+  void _checkWinner() async{
     /// Here we are checking the first Row for winner
     if (displayXO[0] == displayXO[1] &&
         displayXO[1] == displayXO[2] &&
@@ -338,8 +339,11 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Here we are checking The Draw (means nobody wins)
     } else if (indexList.length == 9) {
-      winner = "Draw";
 
+      winner = "Draw";
+      /// Here we are Playing draw sound effect and stopping  previous sounds
+      _audioPlayer.stop();
+      await _audioPlayer.play(AssetSource('audios/draw.mp3'));
       ///Here We are Calling showResult function  to display result of our game
       showResult();
 
@@ -350,8 +354,11 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   }
 
   /// Here we are Incrementing the winner count
-  void _updateWinnerResult(String winner) {
+  void _updateWinnerResult(String winner) async{
     _confettiController.play();
+    /// Here we are Playing winner sound effect and stopping  previous sounds
+    _audioPlayer.stop();
+    await _audioPlayer.play(AssetSource('audios/winner.mp3'));
 
     /// Here we are freezing the game as soon as anyOne wins
     freezeGame = true;
