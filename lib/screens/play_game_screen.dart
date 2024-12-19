@@ -36,6 +36,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
   /// Here we are Creating a variable to freeze the game as soon as anyone wins
   bool freezeGame = false;
+ /// Here we are Creating a List Variable to store and handle the winner pattern
+  List<int>winnerPattern=[];
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +98,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                                   border: Border.all(
                                       width: 5,
                                       color: Theme.of(context).primaryColor),
-                                  color: Theme.of(context).primaryColorLight),
+                                  color:winnerPattern.contains(index)?Theme.of(context).primaryColorDark: Theme.of(context).primaryColorLight),
                               alignment: Alignment.center,
                               child: Text(
                                 displayXO[index],
@@ -166,6 +168,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([0,1,2]);
 
       /// Here we are checking the Second Row for winner
     } else if (displayXO[3] == displayXO[4] &&
@@ -175,6 +179,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([2,4,5]);
 
       /// Here we are checking the Third Row for winner
     } else if (displayXO[6] == displayXO[7] &&
@@ -184,6 +190,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([6,7,8]);
 
       /// Here we are checking the First Column for winner
     } else if (displayXO[0] == displayXO[3] &&
@@ -193,6 +201,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([0,3,6]);
 
       /// Here we are checking the Second Column for winner
     } else if (displayXO[1] == displayXO[4] &&
@@ -202,6 +212,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([1,4,7]);
 
       /// Here we are checking the Third Column for winner
     } else if (displayXO[2] == displayXO[5] &&
@@ -211,6 +223,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([2,5,8]);
 
       /// Here we are checking the Left to Right Diagonal for winner
     } else if (displayXO[0] == displayXO[4] &&
@@ -220,6 +234,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([0,4,8]);
 
       /// Here we are checking the Right to Left Diagonal for winner
     } else if (displayXO[2] == displayXO[4] &&
@@ -229,6 +245,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([2,4,6]);
 
       /// Here we are checking The Draw (means nobody wins)
     } else if (indexList.length == 9) {
@@ -264,6 +282,8 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       freezeGame =false;
       /// Here we are again setting the Turn to X
       xTurn =true;
+      /// Here we are clearing our winnerPattern  also
+      winnerPattern=[];
     });
 
 
