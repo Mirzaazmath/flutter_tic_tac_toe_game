@@ -74,6 +74,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
+              /// ***** Score Board Area ******* ///
               Expanded(
                   flex: 1,
                   child: Row(
@@ -164,6 +165,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                           );
                         }),
                   )),
+              /// ***** End Game  Area ******* ///
               Expanded(
                   flex: 1,
                   child: Column(
@@ -197,7 +199,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       ),
     );
   }
-
+  /// ***** Tapped on Box ******* ///
   void _tapped(int index) async {
     /// Here we are checking the index contains in the list or not
     if (!indexList.contains(index)) {
@@ -239,7 +241,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       _checkWinner();
     }
   }
-
+  /// ***** Check Winner Function ******* ///
   void _checkWinner() async{
     /// Here we are checking the first Row for winner
     if (displayXO[0] == displayXO[1] &&
@@ -353,6 +355,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
     setState(() {});
   }
 
+  /// ***** Update Winner Result Function ******* ///
   /// Here we are Incrementing the winner count
   void _updateWinnerResult(String winner) async{
     _confettiController.play();
@@ -375,7 +378,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
     ///Here We are Calling showResult function  to display result of our game
     showResult();
   }
-
+  /// ***** Update Winner Result Function ******* ///
   void _clearBoard() {
     setState(() {
       /// Here we are Loping and clearing the board
@@ -399,7 +402,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       winnerPattern = [];
     });
   }
-
+  /// ***** Show Result Function ******* ///
   void showResult() {
     showDialog(
         context: context,
