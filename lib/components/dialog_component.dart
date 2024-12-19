@@ -5,9 +5,10 @@ import 'package:flutter/material.dart';
 class CustomDialogBox extends StatefulWidget {
   final String title, descriptions, text;
   final bool didwin;
+  final bool? isAlert;
 
 
-  const CustomDialogBox({  required this.title, required this.descriptions, required this.text,required this.didwin });
+  const CustomDialogBox({  required this.title, required this.descriptions, required this.text,required this.didwin ,this.isAlert});
 
   @override
   _CustomDialogBoxState createState() => _CustomDialogBoxState();
