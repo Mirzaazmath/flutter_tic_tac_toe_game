@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,7 +16,8 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    _loadItems(); // Start loading items automatically
+    _loadItems();// Start loading items automatically
+    _splashScreenLogic();
   }
 
   void _loadItems() async {
@@ -30,6 +32,12 @@ class _SplashScreenState extends State<SplashScreen> {
     final index = _data.length;
     _data.add(appName[index]);
     _listKey.currentState?.insertItem(index);
+  }
+
+  void _splashScreenLogic()  {
+    Future.delayed(const Duration(milliseconds: 3500), (){
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const PlayGameScreen()));
+    });
   }
 
   @override
