@@ -37,6 +37,8 @@ dependencies:
   cupertino_icons: ^1.0.6
   # Audio PLayer
   audioplayers: ^6.1.0
+  # Confetti Effect
+  confetti: ^0.8.0
 
 dev_dependencies:
   flutter_test:
