@@ -5,22 +5,15 @@ import 'package:tic_tac_toe_game/utils/theme_color_utils.dart';
 // Setting DIALOG CLASS
 class SettingDialogBox extends StatefulWidget {
   bool isSoundAllow;
-   SettingDialogBox({super.key,required this.isSoundAllow});
+  int colorThemeIndex;
+  Function(int) newColorIndex;
+   SettingDialogBox({super.key,required this.isSoundAllow,required this.colorThemeIndex,required this.newColorIndex});
 
   @override
   _SettingDialogBoxState createState() => _SettingDialogBoxState();
 }
 
 class _SettingDialogBoxState extends State<SettingDialogBox> {
- int index =4;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-
-  }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +56,6 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                       activeColor: Theme.of(context).primaryColor,
                       value: widget.isSoundAllow,
                       onChanged: (value) async{
-
                         setState(() {
                           widget.isSoundAllow = value;
                         });
@@ -95,47 +87,63 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                         runSpacing: 20,
                         children:[
                           for(int i=0;i<themeList.length;i++)...[
-                            Container(
-                              height: 30,
-                              width: 80,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                border: Border.all(width:2,color:index==i?Colors.black: Colors.grey.shade300),
+                            GestureDetector(
+                              onTap:()async{
+                                final SharedPreferences prefs = await SharedPreferences.getInstance();
+                                await prefs.setInt('theme', i);
+                                widget.newColorIndex(i);
+                                WidgetsBinding.instance.addPostFrameCallback((_) {
+                                  setState(() {
+                                    widget.colorThemeIndex=i;
 
-                              ),
-                              alignment: Alignment.center,
-                              child:  Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: BoxDecoration(
-                                      color: themeList[i].primaryColor,
-                                      border: Border.all(),
-                                      shape: BoxShape.circle
-                                    ),
-                                  ),
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: BoxDecoration(
-                                        color: themeList[i].primaryColorLight,
+                                  });
+                                });
+
+
+
+                              },
+                              child: Container(
+                                height: 30,
+                                width: 80,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  border: Border.all(width:2,color:widget.colorThemeIndex==i?Colors.black: Colors.grey.shade300),
+
+                                ),
+                                alignment: Alignment.center,
+                                child:  Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                        color: themeList[i].primaryColor,
                                         border: Border.all(),
                                         shape: BoxShape.circle
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    height: 20,
-                                    width: 20,
-                                    decoration: BoxDecoration(
-                                        color: themeList[i].primaryColorDark,
-                                        border: Border.all(),
-                                        shape: BoxShape.circle
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                          color: themeList[i].primaryColorLight,
+                                          border: Border.all(),
+                                          shape: BoxShape.circle
+                                      ),
                                     ),
-                                  )
+                                    Container(
+                                      height: 20,
+                                      width: 20,
+                                      decoration: BoxDecoration(
+                                          color: themeList[i].primaryColorDark,
+                                          border: Border.all(),
+                                          shape: BoxShape.circle
+                                      ),
+                                    )
 
-                                ],
+                                  ],
+                                ),
                               ),
                             )
                           ]
