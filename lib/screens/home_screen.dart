@@ -15,6 +15,7 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            /// **** Settings Section  **** ///
             ShowUpAnimation(
               delay: 200,
               child: Padding(
@@ -27,6 +28,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
             const  Spacer(),
+            /// **** Custom Logo Section  **** ///
             ShowUpAnimation(
               delay: 300,
               child: Center(
@@ -50,6 +52,7 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
          const  Spacer(),
+            /// **** Multi-Player Button Section  **** ///
           ShowUpAnimation(
             delay: 400,
             child: Center(
@@ -63,7 +66,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
            const  SizedBox(height: 30,),
-
+            /// **** Single-Player Button Section  **** ///
             ShowUpAnimation(
               delay: 500,
               child: Center(
@@ -80,7 +83,7 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
-
+  /// **** Setting Dialog Section  **** ///
   void showSetting(context) {
     showDialog(
         context: context,
