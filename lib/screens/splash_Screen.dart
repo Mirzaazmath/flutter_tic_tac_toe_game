@@ -9,33 +9,46 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
+/// Here we are Creating a Key variable to access the animated List
   final GlobalKey<AnimatedListState> _listKey = GlobalKey<AnimatedListState>();
+  ///  Here we are creating a list variable to hold all letters of our App Name
   final List<String> _data = [];
+  /// Here we are Creating a variable to hold our app Name
   String appName = "Tic Tac Toe";
   @override
   void initState() {
     super.initState();
+    /// Here we are calling a loadItems Function to perform animation
     _loadItems();// Start loading items automatically
+    /// Here we are calling the splash Screen Logic function
     _splashScreenLogic();
   }
-
+/// *** Load Items Functions *** ///
   void _loadItems() async {
+    /// Here we are iterating the loop with our appName so we can get all letter that we want to display and animate
     for (int i = 0; i < appName.length; i++) {
+      /// Here we are delaying some time in every loop to handle animation
       await Future.delayed(
           const  Duration(milliseconds: 200)); // Simulate a delay
+      /// Here we are calling the _addItem function after delay in every loop
       _addItem();
     }
   }
-
+/// *** Add Items Function *** ///
   void _addItem() {
+    /// Here we are getting index based on _data list length
     final index = _data.length;
+    /// Here we are adding Single Letter of our app name with index
     _data.add(appName[index]);
+    /// Here we are notifying our animated List that we have inserted some value by using the key
+    /// this will build that element in the list
     _listKey.currentState?.insertItem(index);
   }
-
+  /// *** Splash Screen Function *** ///
   void _splashScreenLogic()  {
+    /// Here we are simple waiting for 3.5 seconds and performing navigation
     Future.delayed(const Duration(milliseconds: 3500), (){
+      /// Navigating with pushReplacement
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const PlayGameScreen()));
     });
   }
@@ -44,6 +57,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
+      /// **** Animated List for Animating the app Name **** ///
       body: Center(
         child: SizedBox(
           height: 100,
