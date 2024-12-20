@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_game/screens/splash_Screen.dart';
+import 'package:tic_tac_toe_game/utils/theme_color_utils.dart';
 
 void main(){
   runApp(const MyApp());
@@ -14,9 +15,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         fontFamily: "Coiny",
-        primaryColor: const Color(0xffFF4b4b),
-        primaryColorLight:const  Color(0xffffca27),
-        primaryColorDark: const Color(0xff4169e8)
+
+        primaryColor:themeList[5].primaryColor,
+        primaryColorLight: themeList[5].primaryColorLight,
+        primaryColorDark: themeList[5].primaryColorDark
       ),
       home: const SplashScreen(),
     );
