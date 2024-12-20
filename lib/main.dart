@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tic_tac_toe_game/screens/splash_Screen.dart';
 import 'package:tic_tac_toe_game/utils/theme_color_utils.dart';
 
-void main(){
-  runApp( MyApp());
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  final int? theme = prefs.getInt('theme');
+  runApp(MyApp( colorIndex: theme??0,));
 
 }
 class MyApp extends StatefulWidget {
-
+  int colorIndex;
+  MyApp({required this.colorIndex});
 
   @override
   State<MyApp> createState() => MyAppState();
@@ -25,7 +31,7 @@ class MyAppState extends State<MyApp> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    setColor(0);
+    setColor(widget.colorIndex);
   }
 
   void setColor(index){
