@@ -71,7 +71,22 @@ class HomeScreen extends StatelessWidget {
               delay: 500,
               child: Center(
                 child: ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      final snackBar = SnackBar(
+                        content: const Text('Single-Player Mode is Coming soon....'),
+                        action: SnackBarAction(
+                          label: '',
+                          onPressed: () {
+
+                          },
+                        ),
+                      );
+
+                      // Find the ScaffoldMessenger in the widget tree
+                      // and use it to show a SnackBar.
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+                    },
                     style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
                     child:  Text("Single-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
               ),
