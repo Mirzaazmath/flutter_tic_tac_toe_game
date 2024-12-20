@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 import 'package:tic_tac_toe_game/screens/splash_Screen.dart';
 
 void main(){
