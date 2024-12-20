@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tic_tac_toe_game/components/setting_dailog.dart';
 import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
+import 'package:tic_tac_toe_game/utils/animation_utils.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -13,51 +15,63 @@ class HomeScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20),
-              child: IconButton.outlined(
-                style: IconButton.styleFrom(side: BorderSide(color: Theme.of(context).primaryColorLight)),
-                  onPressed: (){
-                    showSetting(context);
-                  }, icon: Icon(Icons.settings,color: Theme.of(context).primaryColorLight,)),
+            ShowUpAnimation(
+              delay: 200,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: IconButton.outlined(
+                  style: IconButton.styleFrom(side: BorderSide(color: Theme.of(context).primaryColorLight)),
+                    onPressed: (){
+                      showSetting(context);
+                    }, icon: Icon(Icons.settings,color: Theme.of(context).primaryColorLight,)),
+              ),
             ),
             const  Spacer(),
-            Center(
-              child: Container(
-                height: 200,
-                width: 160,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Theme.of(context).primaryColorLight,width: 2)
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("Tic",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),),
-                    Text("Tac",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),),
-                    Text("Toe",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),)
-                  ],
+            ShowUpAnimation(
+              delay: 300,
+              child: Center(
+                child: Container(
+                  height: 200,
+                  width: 160,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Theme.of(context).primaryColorLight,width: 2)
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Tic",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),),
+                      Text("Tac",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),),
+                      Text("Toe",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),)
+                    ],
 
+                  ),
                 ),
               ),
             ),
          const  Spacer(),
-          Center(
-            child: ElevatedButton(
-                    onPressed: (){
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const PlayGameScreen()));
-                    },
-                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,
-                    minimumSize: const Size(250, 55)),
-                    child:  Text("Multi-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+          ShowUpAnimation(
+            delay: 400,
+            child: Center(
+              child: ElevatedButton(
+                      onPressed: (){
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const PlayGameScreen()));
+                      },
+                      style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,
+                      minimumSize: const Size(250, 55)),
+                      child:  Text("Multi-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+            ),
           ),
            const  SizedBox(height: 30,),
 
-            Center(
-              child: ElevatedButton(
-                  onPressed: (){},
-                  style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
-                  child:  Text("Single-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+            ShowUpAnimation(
+              delay: 500,
+              child: Center(
+                child: ElevatedButton(
+                    onPressed: (){},
+                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
+                    child:  Text("Single-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+              ),
             ),
             const  Spacer(),
           ],
