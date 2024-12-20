@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tic_tac_toe_game/components/setting_dailog.dart';
 import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 import 'package:tic_tac_toe_game/utils/animation_utils.dart';
@@ -57,8 +58,10 @@ class HomeScreen extends StatelessWidget {
             delay: 400,
             child: Center(
               child: ElevatedButton(
-                      onPressed: (){
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const PlayGameScreen()));
+                      onPressed: ()async{
+                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        final bool? sound = prefs.getBool('sound');
+                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PlayGameScreen(isSoundAllow: sound??true,)));
                       },
                       style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,
                       minimumSize: const Size(250, 55)),
@@ -99,12 +102,15 @@ class HomeScreen extends StatelessWidget {
     );
   }
   /// **** Setting Dialog Section  **** ///
-  void showSetting(context) {
+  void showSetting(context) async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool? sound = prefs.getBool('sound');
+
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return const SettingDialogBox();
+          return  SettingDialogBox( isSoundAllow: sound??true,);
         });
   }
 }

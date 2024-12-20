@@ -39,6 +39,8 @@ dependencies:
   audioplayers: ^6.1.0
   # Confetti Effect
   confetti: ^0.8.0
+  # For Local Data
+  shared_preferences: ^2.3.3
 
 dev_dependencies:
   flutter_test:

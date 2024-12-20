@@ -1,15 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Setting DIALOG CLASS
 class SettingDialogBox extends StatefulWidget {
-  const SettingDialogBox({super.key});
+  bool isSoundAllow;
+   SettingDialogBox({super.key,required this.isSoundAllow});
 
   @override
   _SettingDialogBoxState createState() => _SettingDialogBoxState();
 }
 
 class _SettingDialogBoxState extends State<SettingDialogBox> {
-  bool isSoundAllow = true;
+  //bool isSoundAllow = true;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // WidgetsFlutterBinding.ensureInitialized();
+    // getSettingValueFromLocalStorage();
+  }
+  // void getSettingValueFromLocalStorage() async{
+  //   // Obtain shared preferences.
+  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final bool? sound = prefs.getBool('sound');
+  //   setState(() {
+  //     isSoundAllow=sound ?? true;
+  //   });
+  // }
+
+
   @override
   Widget build(BuildContext context) {
     return Dialog(
@@ -49,11 +68,14 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                   Text("Sound", style: Theme.of(context).textTheme.titleLarge),
                   Switch(
                       activeColor: Theme.of(context).primaryColor,
-                      value: isSoundAllow,
-                      onChanged: (value) {
+                      value: widget.isSoundAllow,
+                      onChanged: (value) async{
+
                         setState(() {
-                          isSoundAllow = value;
+                          widget.isSoundAllow = value;
                         });
+                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('sound', value);
                       })
                 ],
               ),

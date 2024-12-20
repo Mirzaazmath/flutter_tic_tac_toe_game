@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 import '../components/dialog_component.dart';
 
 class PlayGameScreen extends StatefulWidget {
-  const PlayGameScreen({super.key});
+  bool isSoundAllow;
+   PlayGameScreen({super.key,required this.isSoundAllow});
 
   @override
   State<PlayGameScreen> createState() => _PlayGameScreenState();
@@ -233,9 +234,14 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   void _tapped(int index) async {
     /// Here we are checking the index contains in the list or not
     if (!indexList.contains(index)) {
+
       /// Here we are Playing Write sound effect and stopping  previous sounds
-      _audioPlayer.stop();
-      await _audioPlayer.play(AssetSource('audios/write.mp3'));
+      if(widget.isSoundAllow){
+        _audioPlayer.stop();
+        await _audioPlayer.play(AssetSource('audios/write.mp3'));
+      }
+
+
 
       /// if Not
       setState(() {
@@ -374,9 +380,11 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
     } else if (indexList.length == 9) {
       winner = "Draw";
 
-      /// Here we are Playing draw sound effect and stopping  previous sounds
-      _audioPlayer.stop();
-      await _audioPlayer.play(AssetSource('audios/draw.mp3'));
+     if(widget.isSoundAllow){
+       /// Here we are Playing draw sound effect and stopping  previous sounds
+       _audioPlayer.stop();
+       await _audioPlayer.play(AssetSource('audios/draw.mp3'));
+     }
 
       ///Here We are Calling showResult function  to display result of our game
       showResult();
@@ -392,9 +400,11 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   void _updateWinnerResult(String winner) async {
     _confettiController.play();
 
+  if(widget.isSoundAllow){
     /// Here we are Playing winner sound effect and stopping  previous sounds
     _audioPlayer.stop();
     await _audioPlayer.play(AssetSource('audios/winner.mp3'));
+  }
 
     /// Here we are freezing the game as soon as anyOne wins
     freezeGame = true;
