@@ -5,7 +5,8 @@ import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 import 'package:tic_tac_toe_game/utils/animation_utils.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  Function(int) newColorIndex;
+ HomeScreen({super.key,required this.newColorIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class HomeScreen extends StatelessWidget {
                 child: IconButton.outlined(
                   style: IconButton.styleFrom(side: BorderSide(color: Theme.of(context).primaryColorLight)),
                     onPressed: (){
-                      showSetting(context);
+
+                       showSetting(context);
                     }, icon: Icon(Icons.settings,color: Theme.of(context).primaryColorLight,)),
               ),
             ),
@@ -105,12 +107,13 @@ class HomeScreen extends StatelessWidget {
   void showSetting(context) async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? sound = prefs.getBool('sound');
+    final int? theme = prefs.getInt('theme');
 
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return  SettingDialogBox( isSoundAllow: sound??true,);
+          return  SettingDialogBox( isSoundAllow: sound??true,colorThemeIndex:theme??0,newColorIndex: newColorIndex,);
         });
   }
 }

@@ -3,7 +3,8 @@ import 'package:tic_tac_toe_game/screens/home_screen.dart';
 import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  Function(int) newColorIndex;
+   SplashScreen({super.key,required this.newColorIndex});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -50,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen> {
     /// Here we are simple waiting for 3.5 seconds and performing navigation
     Future.delayed(const Duration(milliseconds: 3500), (){
       /// Navigating with pushReplacement
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const HomeScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomeScreen(newColorIndex: widget.newColorIndex)));
     });
   }
 
