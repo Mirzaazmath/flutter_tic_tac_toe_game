@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tic_tac_toe_game/utils/theme_color_utils.dart';
 
 // Setting DIALOG CLASS
 class SettingDialogBox extends StatefulWidget {
@@ -11,22 +12,14 @@ class SettingDialogBox extends StatefulWidget {
 }
 
 class _SettingDialogBoxState extends State<SettingDialogBox> {
-  //bool isSoundAllow = true;
+ int index =4;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // WidgetsFlutterBinding.ensureInitialized();
-    // getSettingValueFromLocalStorage();
+
   }
-  // void getSettingValueFromLocalStorage() async{
-  //   // Obtain shared preferences.
-  //   final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   final bool? sound = prefs.getBool('sound');
-  //   setState(() {
-  //     isSoundAllow=sound ?? true;
-  //   });
-  // }
+
 
 
   @override
@@ -93,9 +86,61 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                      width: double.infinity,
                      decoration: BoxDecoration(
                        borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Theme.of(context).primaryColor)
-
+                      border: Border.all(color: Theme.of(context).primaryColor),
                      ),
+                      alignment: Alignment.center,
+                      padding:const   EdgeInsets.all(15),
+                      child: Wrap(
+                        spacing: 10,
+                        runSpacing: 20,
+                        children:[
+                          for(int i=0;i<themeList.length;i++)...[
+                            Container(
+                              height: 30,
+                              width: 80,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                border: Border.all(width:2,color:index==i?Colors.black: Colors.grey.shade300),
+
+                              ),
+                              alignment: Alignment.center,
+                              child:  Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: themeList[i].primaryColor,
+                                      border: Border.all(),
+                                      shape: BoxShape.circle
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                        color: themeList[i].primaryColorLight,
+                                        border: Border.all(),
+                                        shape: BoxShape.circle
+                                    ),
+                                  ),
+                                  Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                        color: themeList[i].primaryColorDark,
+                                        border: Border.all(),
+                                        shape: BoxShape.circle
+                                    ),
+                                  )
+
+                                ],
+                              ),
+                            )
+                          ]
+                        ]
+                      ),
                     )
                   ],
                 ),
@@ -117,7 +162,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
             backgroundColor: Colors.transparent,
             radius: Constants.avatarRadius,
             child: CircleAvatar(
-              backgroundColor: Theme.of(context).primaryColorLight,
+              backgroundColor: Theme.of(context).primaryColorDark,
               radius: 50,
               child: const Icon(
                 Icons.settings_outlined,
