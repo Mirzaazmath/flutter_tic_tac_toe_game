@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_game/screens/home_screen.dart';
 import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -49,7 +50,7 @@ class _SplashScreenState extends State<SplashScreen> {
     /// Here we are simple waiting for 3.5 seconds and performing navigation
     Future.delayed(const Duration(milliseconds: 3500), (){
       /// Navigating with pushReplacement
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const PlayGameScreen()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>const HomeScreen()));
     });
   }
 
