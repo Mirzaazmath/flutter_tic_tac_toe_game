@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_game/components/setting_dailog.dart';
+import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -8,8 +10,17 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: Theme.of(context).primaryColor,
       body: SafeArea(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Padding(
+              padding: const EdgeInsets.all(20),
+              child: IconButton.outlined(
+                style: IconButton.styleFrom(side: BorderSide(color: Theme.of(context).primaryColorLight)),
+                  onPressed: (){
+                    showSetting(context);
+                  }, icon: Icon(Icons.settings,color: Theme.of(context).primaryColorLight,)),
+            ),
             const  Spacer(),
             Center(
               child: Container(
@@ -31,22 +42,37 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
          const  Spacer(),
-          ElevatedButton(
-                  onPressed: (){},
-                  style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,
-                  minimumSize: const Size(200, 40)),
-                  child:const  Text("Multi-Player",)),
-           const  SizedBox(height: 20,),
+          Center(
+            child: ElevatedButton(
+                    onPressed: (){
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>const PlayGameScreen()));
+                    },
+                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,
+                    minimumSize: const Size(250, 55)),
+                    child:  Text("Multi-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+          ),
+           const  SizedBox(height: 30,),
 
-            ElevatedButton(
-                onPressed: (){},
-                style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(200, 40)),
-                child:const  Text("Single-Player",)),
+            Center(
+              child: ElevatedButton(
+                  onPressed: (){},
+                  style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
+                  child:  Text("Single-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+            ),
             const  Spacer(),
           ],
         ),
 
       ),
     );
+  }
+
+  void showSetting(context) {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) {
+          return const SettingDialogBox();
+        });
   }
 }
