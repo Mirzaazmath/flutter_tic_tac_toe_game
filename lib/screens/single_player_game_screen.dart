@@ -126,7 +126,7 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
                     freezeGame
                         ? const SizedBox()
                         : Text(
-                      "Player ${xTurn ? "X" : "O"}'s turn",
+                      xTurn?"Player X turn":"Computer thinking..",
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge
@@ -160,20 +160,27 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
         displayXO[index] = "X";
         indexList.add(index);
         if (indexList.length >= 5) _checkWinner();
+        xTurn=false;
         if (!freezeGame) _computerMove();
       });
     }
   }
 
   /// Computer's Move using Minimax
-  void _computerMove() {
+  void _computerMove()async {
     if (freezeGame || indexList.length == 9) return;
 
-    Future.delayed(const Duration(milliseconds: 500), () {
+
+    Future.delayed(const Duration(seconds: 1), () async{
+      if (widget.isSoundAllow) {
+        _audioPlayer.stop();
+        await _audioPlayer.play(AssetSource('audios/write.mp3'));
+      }
       final bestMove = _findBestMove();
       setState(() {
         displayXO[bestMove] = "O";
         indexList.add(bestMove);
+        xTurn=true;
         if (indexList.length >= 5) _checkWinner();
       });
     });
@@ -259,6 +266,7 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
       freezeGame = true;
       _updateWinnerResult(winner);
     } else if (!displayXO.contains("")) {
+      freezeGame = true;
       winner = "Draw";
       showResult();
     }
