@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tic_tac_toe_game/components/setting_dailog.dart';
 import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
+import 'package:tic_tac_toe_game/screens/single_player_game_screen.dart';
 import 'package:tic_tac_toe_game/utils/animation_utils.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -76,20 +77,24 @@ class HomeScreen extends StatelessWidget {
               delay: 500,
               child: Center(
                 child: ElevatedButton(
-                    onPressed: (){
-                      final snackBar = SnackBar(
-                        content: const Text('Single-Player Mode is Coming soon....'),
-                        action: SnackBarAction(
-                          label: '',
-                          onPressed: () {
-
-                          },
-                        ),
-                      );
-
-                      // Find the ScaffoldMessenger in the widget tree
-                      // and use it to show a SnackBar.
-                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    onPressed: ()async{
+                      final SharedPreferences prefs = await SharedPreferences.getInstance();
+                      final bool? sound = prefs.getBool('sound');
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePLayerPlayGameScreen(isSoundAllow: sound??true,)));
+                      //SinglePLayerPlayGameScreen
+                      // final snackBar = SnackBar(
+                      //   content: const Text('Single-Player Mode is Coming soon....'),
+                      //   action: SnackBarAction(
+                      //     label: '',
+                      //     onPressed: () {
+                      //
+                      //     },
+                      //   ),
+                      // );
+                      //
+                      // // Find the ScaffoldMessenger in the widget tree
+                      // // and use it to show a SnackBar.
+                      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
