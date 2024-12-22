@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tic_tac_toe_game/components/setting_dailog.dart';
+import 'package:tic_tac_toe_game/constant/app_strings.dart';
 import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
 import 'package:tic_tac_toe_game/screens/single_player_game_screen.dart';
 import 'package:tic_tac_toe_game/utils/animation_utils.dart';
 
 class HomeScreen extends StatelessWidget {
   Function(int) newColorIndex;
- HomeScreen({super.key,required this.newColorIndex});
+  HomeScreen({super.key, required this.newColorIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -24,14 +25,20 @@ class HomeScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(20),
                 child: IconButton.outlined(
-                  style: IconButton.styleFrom(side: BorderSide(color: Theme.of(context).primaryColorLight)),
-                    onPressed: (){
-
-                       showSetting(context);
-                    }, icon: Icon(Icons.settings,color: Theme.of(context).primaryColorLight,)),
+                    style: IconButton.styleFrom(
+                        side: BorderSide(
+                            color: Theme.of(context).primaryColorLight)),
+                    onPressed: () {
+                      showSetting(context);
+                    },
+                    icon: Icon(
+                      Icons.settings,
+                      color: Theme.of(context).primaryColorLight,
+                    )),
               ),
             ),
-            const  Spacer(),
+            const Spacer(),
+
             /// **** Custom Logo Section  **** ///
             ShowUpAnimation(
               delay: 300,
@@ -40,72 +47,127 @@ class HomeScreen extends StatelessWidget {
                   height: 200,
                   width: 160,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Theme.of(context).primaryColorLight,width: 2)
-                  ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                          color: Theme.of(context).primaryColorLight,
+                          width: 2)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text("Tic",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),),
-                      Text("Tac",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),),
-                      Text("Toe",style: Theme.of(context).textTheme.displaySmall?.copyWith(color: Colors.white),)
+                      Text(
+                        AppStrings.tic,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall
+                            ?.copyWith(color: Colors.white),
+                      ),
+                      Text(
+                        AppStrings.tac,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall
+                            ?.copyWith(color: Colors.white),
+                      ),
+                      Text(
+                        AppStrings.toe,
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall
+                            ?.copyWith(color: Colors.white),
+                      )
                     ],
-
                   ),
                 ),
               ),
             ),
-         const  Spacer(),
+            const Spacer(),
+
             /// **** Multi-Player Button Section  **** ///
-          ShowUpAnimation(
-            delay: 400,
-            child: Center(
-              child: ElevatedButton(
-                      onPressed: ()async{
-                        final SharedPreferences prefs = await SharedPreferences.getInstance();
-                        final bool? sound = prefs.getBool('sound');
-                        Navigator.of(context).push(MaterialPageRoute(builder: (context)=> PlayGameScreen(isSoundAllow: sound??true,)));
-                      },
-                      style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,
-                      minimumSize: const Size(250, 55)),
-                      child:  Text("Multi-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+            ShowUpAnimation(
+              delay: 400,
+              child: Center(
+                child: ElevatedButton(
+                    onPressed: () async {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      final bool? sound = prefs.getBool(AppStrings.spSound);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => PlayGameScreen(
+                                isSoundAllow: sound ?? true,
+                              )));
+                    },
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColorLight,
+                        minimumSize: const Size(250, 55)),
+                    child: Text(
+                      AppStrings.multiPlayer,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Theme.of(context).primaryColorDark),
+                    )),
+              ),
             ),
-          ),
-           const  SizedBox(height: 30,),
+            const SizedBox(
+              height: 30,
+            ),
+
             /// **** Single-Player Button Section  **** ///
             ShowUpAnimation(
               delay: 500,
               child: Center(
                 child: ElevatedButton(
-                    onPressed: ()async{
-                      final SharedPreferences prefs = await SharedPreferences.getInstance();
-                      final bool? sound = prefs.getBool('sound');
-                      final String? mode = prefs.getString('mode');
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePLayerPlayGameScreen(isSoundAllow: sound??true,difficultyLevel: mode=="Hard"?2: mode=="Medium"?1:0,)));
+                    onPressed: () async {
+                      final SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      final bool? sound = prefs.getBool(AppStrings.spSound);
+                      final String? mode = prefs.getString(AppStrings.spMode);
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SinglePLayerPlayGameScreen(
+                                isSoundAllow: sound ?? true,
+                                difficultyLevel: mode == AppStrings.hard
+                                    ? 2
+                                    : mode == AppStrings.medium
+                                        ? 1
+                                        : 0,
+                              )));
                     },
-                    style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
-                    child:  Text("Single-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
+                    style: ElevatedButton.styleFrom(
+                        backgroundColor: Theme.of(context).primaryColorLight,
+                        minimumSize: const Size(250, 55)),
+                    child: Text(
+                      AppStrings.singlePlayer,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(color: Theme.of(context).primaryColorDark),
+                    )),
               ),
             ),
-            const  Spacer(),
+            const Spacer(),
           ],
         ),
-
       ),
     );
   }
+
   /// **** Setting Dialog Section  **** ///
-  void showSetting(context) async{
+  void showSetting(context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    final bool? sound = prefs.getBool('sound');
-    final int? theme = prefs.getInt('theme');
-    final String? mode = prefs.getString('mode');
+    final bool? sound = prefs.getBool(AppStrings.spSound);
+    final int? theme = prefs.getInt(AppStrings.spTheme);
+    final String? mode = prefs.getString(AppStrings.spMode);
 
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return  SettingDialogBox( isSoundAllow: sound??true,colorThemeIndex:theme??0,newColorIndex: newColorIndex,selectedDifficultyLevel: mode??"Easy",);
+          return SettingDialogBox(
+            isSoundAllow: sound ?? true,
+            colorThemeIndex: theme ?? 0,
+            newColorIndex: newColorIndex,
+            selectedDifficultyLevel: mode ?? AppStrings.easy,
+          );
         });
   }
 }

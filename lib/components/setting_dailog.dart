@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tic_tac_toe_game/constant/app_strings.dart';
 import 'package:tic_tac_toe_game/utils/theme_color_utils.dart';
 
 // Setting DIALOG CLASS
@@ -25,9 +26,9 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
 
   // List of items in our dropdown menu
   var items = [
-    'Easy',
-    'Medium',
-    'Hard',
+    AppStrings.easy,
+    AppStrings.medium,
+    AppStrings.hard,
   ];
   @override
   Widget build(BuildContext context) {
@@ -65,7 +66,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Sound", style: Theme.of(context).textTheme.titleLarge),
+                  Text(AppStrings.sound, style: Theme.of(context).textTheme.titleLarge),
                   Switch(
                       activeColor: Theme.of(context).primaryColor,
                       value: widget.isSoundAllow,
@@ -75,7 +76,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                         });
                         final SharedPreferences prefs =
                             await SharedPreferences.getInstance();
-                        await prefs.setBool('sound', value);
+                        await prefs.setBool(AppStrings.spSound, value);
                       })
                 ],
               ),
@@ -85,7 +86,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Modes", style: Theme.of(context).textTheme.titleLarge),
+                  Text(AppStrings.modes, style: Theme.of(context).textTheme.titleLarge),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 15),
                     decoration: BoxDecoration(
@@ -107,9 +108,9 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                             child: Text(
                               items,
                               style: TextStyle(
-                                  color: items == "Easy"
+                                  color: items == AppStrings.easy
                                       ? Colors.green
-                                      : items == "Medium"
+                                      : items == AppStrings.medium
                                           ? Colors.orange
                                           : Colors.red),
                             ),
@@ -120,7 +121,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                         onChanged: (String? newValue) async {
                           final SharedPreferences prefs =
                               await SharedPreferences.getInstance();
-                          await prefs.setString('mode', newValue!);
+                          await prefs.setString(AppStrings.spMode, newValue!);
                           setState(() {
                             widget.selectedDifficultyLevel = newValue;
                           });
@@ -134,7 +135,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                 data: ThemeData(dividerColor: Colors.transparent),
                 child: ExpansionTile(
                   tilePadding: EdgeInsets.zero,
-                  title: Text("Theme",
+                  title: Text(AppStrings.theme,
                       style: Theme.of(context).textTheme.titleLarge),
                   children: [
                     Container(
@@ -153,7 +154,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                             onTap: () async {
                               final SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              await prefs.setInt('theme', i);
+                              await prefs.setInt(AppStrings.spTheme, i);
                               widget.newColorIndex(i);
                               WidgetsBinding.instance.addPostFrameCallback((_) {
                                 setState(() {
@@ -221,7 +222,7 @@ class _SettingDialogBoxState extends State<SettingDialogBox> {
                       backgroundColor: Theme.of(context).primaryColorLight,
                       minimumSize: const Size(250, 55)),
                   child: Text(
-                    "Close",
+                    AppStrings.close,
                     style: Theme.of(context)
                         .textTheme
                         .titleLarge

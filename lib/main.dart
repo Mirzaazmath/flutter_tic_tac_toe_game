@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tic_tac_toe_game/constant/app_strings.dart';
 import 'package:tic_tac_toe_game/screens/splash_Screen.dart';
 import 'package:tic_tac_toe_game/utils/theme_color_utils.dart';
 
@@ -7,7 +8,7 @@ void main()async{
   WidgetsFlutterBinding.ensureInitialized();
   final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  final int? theme = prefs.getInt('theme');
+  final int? theme = prefs.getInt(AppStrings.spTheme);
   runApp(MyApp( colorIndex: theme??0,));
 
 }
@@ -47,8 +48,7 @@ class MyAppState extends State<MyApp> {
     return   MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        fontFamily: "Coiny",
-
+        fontFamily: AppStrings.fontFamily,
         primaryColor: color1,
         primaryColorLight: color2,
         primaryColorDark:color3,
