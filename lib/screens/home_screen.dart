@@ -80,7 +80,8 @@ class HomeScreen extends StatelessWidget {
                     onPressed: ()async{
                       final SharedPreferences prefs = await SharedPreferences.getInstance();
                       final bool? sound = prefs.getBool('sound');
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePLayerPlayGameScreen(isSoundAllow: sound??true,difficultyLevel: 2,)));
+                      final String? mode = prefs.getString('mode');
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePLayerPlayGameScreen(isSoundAllow: sound??true,difficultyLevel: mode=="Hard"?2: mode=="Medium"?1:0,)));
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
                     child:  Text("Single-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
@@ -98,12 +99,13 @@ class HomeScreen extends StatelessWidget {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? sound = prefs.getBool('sound');
     final int? theme = prefs.getInt('theme');
+    final String? mode = prefs.getString('mode');
 
     showDialog(
         context: context,
         barrierDismissible: false,
         builder: (BuildContext context) {
-          return  SettingDialogBox( isSoundAllow: sound??true,colorThemeIndex:theme??0,newColorIndex: newColorIndex,);
+          return  SettingDialogBox( isSoundAllow: sound??true,colorThemeIndex:theme??0,newColorIndex: newColorIndex,selectedDifficultyLevel: mode??"Easy",);
         });
   }
 }
