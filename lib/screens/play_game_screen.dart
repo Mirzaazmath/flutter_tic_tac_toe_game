@@ -258,7 +258,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
         isDelayed = true;
 
         /// Here we are changing the turns on the players
-        Future.delayed(const Duration(milliseconds: 1200), () {
+        Future.delayed(const Duration(milliseconds: 300), () {
           setState(() {
             xTurn = !xTurn;
             isDelayed = false;
