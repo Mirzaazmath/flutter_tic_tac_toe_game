@@ -323,7 +323,7 @@ class _SinglePLayerPlayGameScreenState
   }
 
   /// Check Winner
-  void _checkWinner() {
+  void _checkWinner() async{
     winner = _evaluateBoard();
     if (winner != "") {
       freezeGame = true;
@@ -331,7 +331,16 @@ class _SinglePLayerPlayGameScreenState
     } else if (!displayXO.contains("")) {
       freezeGame = true;
       winner = "Draw";
+
+      if(widget.isSoundAllow){
+        /// Here we are Playing draw sound effect and stopping  previous sounds
+        _audioPlayer.stop();
+        await _audioPlayer.play(AssetSource('audios/draw.mp3'));
+      }
+
+
       showResult();
+
     }
   }
 
