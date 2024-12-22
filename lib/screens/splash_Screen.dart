@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_game/constant/app_strings.dart';
 import 'package:tic_tac_toe_game/screens/home_screen.dart';
-import 'package:tic_tac_toe_game/screens/play_game_screen.dart';
+
 
 class SplashScreen extends StatefulWidget {
   Function(int) newColorIndex;
@@ -16,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
   ///  Here we are creating a list variable to hold all letters of our App Name
   final List<String> _data = [];
   /// Here we are Creating a variable to hold our app Name
-  String appName = "Tic Tac Toe";
+  String appName = AppStrings.appName;
   @override
   void initState() {
     super.initState();

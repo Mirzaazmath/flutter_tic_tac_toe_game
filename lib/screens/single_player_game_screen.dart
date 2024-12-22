@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_game/constant/app_strings.dart';
 import '../components/dialog_component.dart';
 
 class SinglePLayerPlayGameScreen extends StatefulWidget {
@@ -55,7 +56,7 @@ class _SinglePLayerPlayGameScreenState
                   children: [
                     Column(
                       children: [
-                        Text("Player X",
+                        Text(AppStrings.playerX,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium
@@ -70,7 +71,7 @@ class _SinglePLayerPlayGameScreenState
                     ),
                     Column(
                       children: [
-                        Text("Computer O",
+                        Text(AppStrings.computer,
                             style: Theme.of(context)
                                 .textTheme
                                 .headlineMedium
@@ -133,7 +134,7 @@ class _SinglePLayerPlayGameScreenState
                     freezeGame
                         ? const SizedBox()
                         : Text(
-                            xTurn ? "Player X turn" : "Computer thinking..",
+                            xTurn ? "${AppStrings.playerX} ${AppStrings.turn}" : AppStrings.computerThinking,
                             style: Theme.of(context)
                                 .textTheme
                                 .titleLarge
@@ -143,7 +144,7 @@ class _SinglePLayerPlayGameScreenState
                     freezeGame
                         ? ElevatedButton(
                             onPressed: _clearBoard,
-                            child: const Text("Play Again!"),
+                            child: const Text(AppStrings.playAgain),
                           )
                         : const SizedBox(),
                   ],
@@ -161,10 +162,10 @@ class _SinglePLayerPlayGameScreenState
     if (!indexList.contains(index)) {
       if (widget.isSoundAllow) {
         _audioPlayer.stop();
-        await _audioPlayer.play(AssetSource('audios/write.mp3'));
+        await _audioPlayer.play(AssetSource(AppStrings.writeAudioPath));
       }
       setState(() {
-        displayXO[index] = "X";
+        displayXO[index] = AppStrings.x;
         indexList.add(index);
         if (indexList.length >= 5) _checkWinner();
         xTurn = false;
@@ -180,7 +181,7 @@ class _SinglePLayerPlayGameScreenState
     await Future.delayed(const Duration(milliseconds: 1000), () async {
       if (widget.isSoundAllow) {
         _audioPlayer.stop();
-        await _audioPlayer.play(AssetSource('audios/write.mp3'));
+        await _audioPlayer.play(AssetSource(AppStrings.writeAudioPath));
       }
       int bestMove;
       /// *** For Easy Mode *** ///
@@ -208,7 +209,7 @@ class _SinglePLayerPlayGameScreenState
       }
 
       setState(() {
-        displayXO[bestMove] = "O";
+        displayXO[bestMove] = AppStrings.o;
         indexList.add(bestMove);
         xTurn = true;
         if (indexList.length >= 5) _checkWinner();
@@ -232,13 +233,13 @@ class _SinglePLayerPlayGameScreenState
     // Try to win or block opponent
     for (int i = 0; i < displayXO.length; i++) {
       if (displayXO[i] == "") {
-        displayXO[i] = "O";
-        if (_evaluateBoard() == "O") {
+        displayXO[i] = AppStrings.o;
+        if (_evaluateBoard() == AppStrings.o) {
           displayXO[i] = "";
           return i;
         }
-        displayXO[i] = "X";
-        if (_evaluateBoard() == "X") {
+        displayXO[i] = AppStrings.x;
+        if (_evaluateBoard() == AppStrings.x) {
           displayXO[i] = "";
           return i;
         }
@@ -256,7 +257,7 @@ class _SinglePLayerPlayGameScreenState
 
     for (int i = 0; i < displayXO.length; i++) {
       if (displayXO[i] == "") {
-        displayXO[i] = "O";
+        displayXO[i] = AppStrings.o;
         int score = _minimax(false);
         displayXO[i] = "";
         if (score > bestScore) {
@@ -271,15 +272,15 @@ class _SinglePLayerPlayGameScreenState
   /// Minimax Algorithm
   int _minimax(bool isMaximizing) {
     String result = _evaluateBoard();
-    if (result == "O") return 10;
-    if (result == "X") return -10;
+    if (result == AppStrings.o) return 10;
+    if (result == AppStrings.x) return -10;
     if (!displayXO.contains("")) return 0;
 
     if (isMaximizing) {
       int bestScore = -1000;
       for (int i = 0; i < displayXO.length; i++) {
         if (displayXO[i] == "") {
-          displayXO[i] = "O";
+          displayXO[i] = AppStrings.o;
           int score = _minimax(false);
           displayXO[i] = "";
           bestScore = max(bestScore, score);
@@ -290,7 +291,7 @@ class _SinglePLayerPlayGameScreenState
       int bestScore = 1000;
       for (int i = 0; i < displayXO.length; i++) {
         if (displayXO[i] == "") {
-          displayXO[i] = "X";
+          displayXO[i] = AppStrings.x;
           int score = _minimax(true);
           displayXO[i] = "";
           bestScore = min(bestScore, score);
@@ -330,12 +331,12 @@ class _SinglePLayerPlayGameScreenState
       _updateWinnerResult(winner);
     } else if (!displayXO.contains("")) {
       freezeGame = true;
-      winner = "Draw";
+      winner = AppStrings.draw;
 
       if(widget.isSoundAllow){
         /// Here we are Playing draw sound effect and stopping  previous sounds
         _audioPlayer.stop();
-        await _audioPlayer.play(AssetSource('audios/draw.mp3'));
+        await _audioPlayer.play(AssetSource(AppStrings.drawAudioPath));
       }
 
 
@@ -349,10 +350,10 @@ class _SinglePLayerPlayGameScreenState
     _confettiController.play();
     if (widget.isSoundAllow) {
       _audioPlayer.stop();
-      await _audioPlayer.play(AssetSource('audios/winner.mp3'));
+      await _audioPlayer.play(AssetSource(AppStrings.winAudioPath));
     }
-    if (winner == "X") xCount++;
-    if (winner == "O") oCount++;
+    if (winner == AppStrings.x) xCount++;
+    if (winner == AppStrings.o) oCount++;
     showResult();
   }
 
@@ -379,14 +380,14 @@ class _SinglePLayerPlayGameScreenState
           emissionFrequency: 0.6,
           blastDirectionality: BlastDirectionality.explosive,
           child: CustomDialogBox(
-            title: winner == "Draw" ? winner : "Winner",
-            descriptions: winner == "Draw"
-                ? "Nobody Wins!"
-                : winner == "X"
-                    ? "Player X has won!"
-                    : "Computer O has won!",
-            text: "Okay",
-            didwin: winner != "Draw",
+            title: winner == AppStrings.draw ? winner : AppStrings.winner,
+            descriptions: winner == AppStrings.draw
+                ? AppStrings.nobodyWin
+                : winner == AppStrings.x
+                    ? AppStrings.playerXWon
+                    : AppStrings.computerWon,
+            text: AppStrings.okay,
+            didwin: winner != AppStrings.draw,
           ),
         );
       },

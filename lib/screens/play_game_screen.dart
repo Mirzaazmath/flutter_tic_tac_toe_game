@@ -1,6 +1,7 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:tic_tac_toe_game/constant/app_strings.dart';
 
 import '../components/dialog_component.dart';
 
@@ -74,20 +75,20 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: const Text('Do you want to Quit Game?'),
+              title:  const Text(AppStrings.quitGameText),
               actionsAlignment: MainAxisAlignment.spaceBetween,
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context, true);
                   },
-                  child: const Text('Yes'),
+                  child: const Text(AppStrings.yes),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context, false);
                   },
-                  child: const Text('No'),
+                  child: const Text(AppStrings.no),
                 ),
               ],
             );
@@ -111,7 +112,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                         Column(
                           children: [
                             Text(
-                              "Player X",
+                              AppStrings.playerX,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineLarge
@@ -132,7 +133,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                         Column(
                           children: [
                             Text(
-                              "Player O",
+                            AppStrings.playerO,
                               style: Theme.of(context)
                                   .textTheme
                                   .headlineLarge
@@ -202,7 +203,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                         freezeGame
                             ? const SizedBox()
                             : Text(
-                                "Player  ${isDelayed ? "..." : xTurn ? "X turn" : "O turn"}",
+                                "${AppStrings.player}  ${isDelayed ? AppStrings.dot : xTurn ? AppStrings.xTurn :  AppStrings.oTurn}",
                                 style: Theme.of(context)
                                     .textTheme
                                     .titleLarge
@@ -216,7 +217,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
                                 ? ElevatedButton(
                                     onPressed: _clearBoard,
                                     child: const Text(
-                                      "Play Again!",
+                                      AppStrings.playAgain,
                                     ),
                                   )
                                 : const SizedBox()),
@@ -238,7 +239,7 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
       /// Here we are Playing Write sound effect and stopping  previous sounds
       if(widget.isSoundAllow){
         _audioPlayer.stop();
-        await _audioPlayer.play(AssetSource('audios/write.mp3'));
+        await _audioPlayer.play(AssetSource(AppStrings.writeAudioPath));
       }
 
 
@@ -249,11 +250,11 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
         /// if True
         if (xTurn && displayXO[index] == "") {
           /// Here we are setting the X Value to the list Index of values
-          displayXO[index] = "X";
+          displayXO[index] = AppStrings.x;
         } else {
           /// if false
-          /// Here we are setting the X Value to the list Index of values
-          displayXO[index] = "O";
+          /// Here we are setting the O Value to the list Index of values
+          displayXO[index] = AppStrings.o;
         }
         isDelayed = true;
 
@@ -378,12 +379,12 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
 
       /// Here we are checking The Draw (means nobody wins)
     } else if (indexList.length == 9) {
-      winner = "Draw";
+      winner = AppStrings.draw;
 
      if(widget.isSoundAllow){
        /// Here we are Playing draw sound effect and stopping  previous sounds
        _audioPlayer.stop();
-       await _audioPlayer.play(AssetSource('audios/draw.mp3'));
+       await _audioPlayer.play(AssetSource(AppStrings.drawAudioPath));
      }
 
       ///Here We are Calling showResult function  to display result of our game
@@ -403,12 +404,12 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
   if(widget.isSoundAllow){
     /// Here we are Playing winner sound effect and stopping  previous sounds
     _audioPlayer.stop();
-    await _audioPlayer.play(AssetSource('audios/winner.mp3'));
+    await _audioPlayer.play(AssetSource(AppStrings.winAudioPath));
   }
 
     /// Here we are freezing the game as soon as anyOne wins
     freezeGame = true;
-    if (winner == "X") {
+    if (winner == AppStrings.x) {
       xCount++;
 
       /// Increase X win Counts
@@ -458,11 +459,11 @@ class _PlayGameScreenState extends State<PlayGameScreen> {
             emissionFrequency: 0.6,
             blastDirectionality: BlastDirectionality.explosive,
             child: CustomDialogBox(
-              title: winner == "Draw" ? winner : "Winner",
+              title: winner == AppStrings.draw ? winner : AppStrings.winner,
               descriptions:
-                  winner == "Draw" ? "Nobody Win!" : "PLayer $winner has won!",
-              text: "Okay",
-              didwin: winner != "" && winner != "Draw",
+                  winner == AppStrings.draw ? AppStrings.nobodyWin : "${AppStrings.player} $winner ${AppStrings.hasWon}",
+              text: AppStrings.okay,
+              didwin: winner != "" && winner != AppStrings.draw,
             ),
           );
         });
