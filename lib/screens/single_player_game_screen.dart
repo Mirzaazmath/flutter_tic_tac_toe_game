@@ -169,6 +169,7 @@ class _SinglePLayerPlayGameScreenState
         indexList.add(index);
         if (indexList.length >= 5) _checkWinner();
         xTurn = false;
+        isDelayed=true;
         if (!freezeGame) _computerMove();
       });
     }
@@ -212,6 +213,7 @@ class _SinglePLayerPlayGameScreenState
         displayXO[bestMove] = AppStrings.o;
         indexList.add(bestMove);
         xTurn = true;
+        isDelayed=false;
         if (indexList.length >= 5) _checkWinner();
       });
     });
