@@ -61,29 +61,40 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       backgroundColor: Theme.of(context).primaryColor,
       /// **** Animated List for Animating the app Name **** ///
-      body: Center(
-        child: SizedBox(
-          height: 100,
-          child: AnimatedList(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              padding: const EdgeInsets.all(20),
-              key: _listKey,
-              initialItemCount: _data.length,
-              itemBuilder: (context, index, animation) {
-                return RotationTransition(
-                  turns: animation,
-                  child: Text(
-                    _data[index],
-                    style: Theme.of(context)
-                        .textTheme
-                        .displayMedium
-                        ?.copyWith(color: Colors.white),
-                  ),
-                );
-              }),
+      body: Stack(
+        alignment: Alignment.center,
+        children: [Center(
+          child: SizedBox(
+            height: 100,
+            child: AnimatedList(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                padding: const EdgeInsets.all(20),
+                key: _listKey,
+                initialItemCount: _data.length,
+                itemBuilder: (context, index, animation) {
+                  return RotationTransition(
+                    turns: animation,
+                    child: Text(
+                      _data[index],
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium
+                          ?.copyWith(color: Colors.white),
+                    ),
+                  );
+                }),
+          ),
         ),
-      ),
+          Positioned(bottom: 20,
+              child: Center(child: Text(
+                AppStrings.developerBranding,
+                textAlign: TextAlign.center,
+                style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(color: Colors.white),)))
+      ]),
     );
   }
 }
