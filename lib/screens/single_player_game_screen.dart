@@ -7,13 +7,17 @@ import '../components/dialog_component.dart';
 
 class SinglePLayerPlayGameScreen extends StatefulWidget {
   final bool isSoundAllow;
-  SinglePLayerPlayGameScreen({super.key, required this.isSoundAllow});
+  final int difficultyLevel;
+  SinglePLayerPlayGameScreen(
+      {super.key, required this.isSoundAllow, required this.difficultyLevel});
 
   @override
-  State<SinglePLayerPlayGameScreen> createState() => _SinglePLayerPlayGameScreenState();
+  State<SinglePLayerPlayGameScreen> createState() =>
+      _SinglePLayerPlayGameScreenState();
 }
 
-class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen> {
+class _SinglePLayerPlayGameScreenState
+    extends State<SinglePLayerPlayGameScreen> {
   List<String> displayXO = ["", "", "", "", "", "", "", "", ""];
   List<int> indexList = [];
   bool xTurn = true; // Player's turn
@@ -25,7 +29,7 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
   final _audioPlayer = AudioPlayer();
   bool isDelayed = false;
   final ConfettiController _confettiController =
-  ConfettiController(duration: const Duration(milliseconds: 1000));
+      ConfettiController(duration: const Duration(milliseconds: 1000));
 
   @override
   void dispose() {
@@ -89,7 +93,9 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
                   absorbing: freezeGame || isDelayed,
                   child: GridView.builder(
                     itemCount: displayXO.length,
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 3),
                     itemBuilder: (context, index) {
                       return GestureDetector(
                         onTap: () => _playerMove(index),
@@ -97,7 +103,8 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
                             border: Border.all(
-                                width: 5, color: Theme.of(context).primaryColor),
+                                width: 5,
+                                color: Theme.of(context).primaryColor),
                             color: winnerPattern.contains(index)
                                 ? Theme.of(context).primaryColorDark
                                 : Theme.of(context).primaryColorLight,
@@ -109,8 +116,8 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
                                 .textTheme
                                 .displayLarge
                                 ?.copyWith(
-                                color: Theme.of(context).primaryColor,
-                                fontWeight: FontWeight.bold),
+                                    color: Theme.of(context).primaryColor,
+                                    fontWeight: FontWeight.bold),
                           ),
                         ),
                       );
@@ -126,18 +133,18 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
                     freezeGame
                         ? const SizedBox()
                         : Text(
-                      xTurn?"Player X turn":"Computer thinking..",
-                      style: Theme.of(context)
-                          .textTheme
-                          .titleLarge
-                          ?.copyWith(color: Colors.white),
-                    ),
+                            xTurn ? "Player X turn" : "Computer thinking..",
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(color: Colors.white),
+                          ),
                     const SizedBox(height: 10),
                     freezeGame
                         ? ElevatedButton(
-                      onPressed: _clearBoard,
-                      child: const Text("Play Again!"),
-                    )
+                            onPressed: _clearBoard,
+                            child: const Text("Play Again!"),
+                          )
                         : const SizedBox(),
                   ],
                 ),
@@ -160,30 +167,86 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
         displayXO[index] = "X";
         indexList.add(index);
         if (indexList.length >= 5) _checkWinner();
-        xTurn=false;
+        xTurn = false;
         if (!freezeGame) _computerMove();
       });
     }
   }
 
   /// Computer's Move using Minimax
-  void _computerMove()async {
+  void _computerMove() async {
     if (freezeGame || indexList.length == 9) return;
 
-
-    Future.delayed(const Duration(seconds: 1), () async{
+    await Future.delayed(const Duration(seconds: 2), () async {
       if (widget.isSoundAllow) {
         _audioPlayer.stop();
         await _audioPlayer.play(AssetSource('audios/write.mp3'));
       }
-      final bestMove = _findBestMove();
+      int bestMove;
+      /// *** For Easy Mode *** ///
+      if (widget.difficultyLevel == 0) {
+        if (Random().nextBool()) {
+          // 50% chance for random move
+          bestMove = _findRandomMove();
+        } else {
+          // 50% chance for strategic move
+          bestMove = _findStrategicMove();
+        }
+        /// *** For Medium Mode *** ///
+      } else if (widget.difficultyLevel == 1) {
+        if (Random().nextInt(100) < 80) {
+          // 80% chance for strategic move
+          bestMove = _findStrategicMove();
+
+        } else {
+          // 20% chance for random move
+          bestMove = _findRandomMove();
+        }
+        /// *** For Hard Mode *** ///
+      } else {
+        bestMove = _findBestMove();
+      }
+
       setState(() {
         displayXO[bestMove] = "O";
         indexList.add(bestMove);
-        xTurn=true;
+        xTurn = true;
         if (indexList.length >= 5) _checkWinner();
       });
     });
+  }
+
+  /// Find a Random Move
+  int _findRandomMove() {
+    List<int> availableMoves = [];
+    for (int i = 0; i < displayXO.length; i++) {
+      if (displayXO[i] == "") {
+        availableMoves.add(i);
+      }
+    }
+    return availableMoves[Random().nextInt(availableMoves.length)];
+  }
+
+  /// Find a Strategic Move
+  int _findStrategicMove() {
+    // Try to win or block opponent
+    for (int i = 0; i < displayXO.length; i++) {
+      if (displayXO[i] == "") {
+        displayXO[i] = "O";
+        if (_evaluateBoard() == "O") {
+          displayXO[i] = "";
+          return i;
+        }
+        displayXO[i] = "X";
+        if (_evaluateBoard() == "X") {
+          displayXO[i] = "";
+          return i;
+        }
+        displayXO[i] = "";
+      }
+    }
+    // Otherwise, return random move
+    return _findRandomMove();
   }
 
   /// Find Best Move (Minimax)
@@ -311,8 +374,8 @@ class _SinglePLayerPlayGameScreenState extends State<SinglePLayerPlayGameScreen>
             descriptions: winner == "Draw"
                 ? "Nobody Wins!"
                 : winner == "X"
-                ? "Player X has won!"
-                : "Computer O has won!",
+                    ? "Player X has won!"
+                    : "Computer O has won!",
             text: "Okay",
             didwin: winner != "Draw",
           ),
