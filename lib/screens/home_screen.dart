@@ -80,22 +80,7 @@ class HomeScreen extends StatelessWidget {
                     onPressed: ()async{
                       final SharedPreferences prefs = await SharedPreferences.getInstance();
                       final bool? sound = prefs.getBool('sound');
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePLayerPlayGameScreen(isSoundAllow: sound??true,)));
-                      //SinglePLayerPlayGameScreen
-                      // final snackBar = SnackBar(
-                      //   content: const Text('Single-Player Mode is Coming soon....'),
-                      //   action: SnackBarAction(
-                      //     label: '',
-                      //     onPressed: () {
-                      //
-                      //     },
-                      //   ),
-                      // );
-                      //
-                      // // Find the ScaffoldMessenger in the widget tree
-                      // // and use it to show a SnackBar.
-                      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=> SinglePLayerPlayGameScreen(isSoundAllow: sound??true,difficultyLevel: 2,)));
                     },
                     style: ElevatedButton.styleFrom(backgroundColor: Theme.of(context).primaryColorLight,minimumSize: const Size(250, 55)),
                     child:  Text("Single-Player",style: Theme.of(context).textTheme.titleLarge?.copyWith(color: Theme.of(context).primaryColorDark),)),
