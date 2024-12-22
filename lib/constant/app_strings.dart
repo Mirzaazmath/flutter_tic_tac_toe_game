@@ -1,5 +1,6 @@
 class AppStrings {
-
+  /// *** Developer Branding  *** ///
+  static const String developerBranding = "Develop by\n Mirza Azmathullah Baig";
   /// *** FontFamily *** ///
   static const String fontFamily = "Coiny";
 
