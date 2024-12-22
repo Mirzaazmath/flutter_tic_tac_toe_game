@@ -177,7 +177,7 @@ class _SinglePLayerPlayGameScreenState
   void _computerMove() async {
     if (freezeGame || indexList.length == 9) return;
 
-    await Future.delayed(const Duration(seconds: 2), () async {
+    await Future.delayed(const Duration(milliseconds: 1000), () async {
       if (widget.isSoundAllow) {
         _audioPlayer.stop();
         await _audioPlayer.play(AssetSource('audios/write.mp3'));
