@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:tic_tac_toe_game/constant/app_strings.dart';
 import 'package:tic_tac_toe_game/screens/home_screen.dart';
 
@@ -52,7 +53,14 @@ class _SplashScreenState extends State<SplashScreen> {
     /// Here we are simple waiting for 3.5 seconds and performing navigation
     Future.delayed(const Duration(milliseconds: 3500), (){
       /// Navigating with pushReplacement
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> HomeScreen(newColorIndex: widget.newColorIndex)));
+      /// Wrapping with Showcase
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ShowCaseWidget(
+        onFinish: (){
+          // Todo : Need to Implement Logic here
+          print("ShowCase Completed");
+        },
+
+        builder: (context)=> HomeScreen(newColorIndex: widget.newColorIndex))));
     });
   }
 
