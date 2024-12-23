@@ -343,25 +343,150 @@ class _SinglePLayerPlayGameScreenState
       [0, 4, 8],
       [2, 4, 6],
     ];
+
     for (var pattern in winPatterns) {
       if (displayXO[pattern[0]] != "" &&
           displayXO[pattern[0]] == displayXO[pattern[1]] &&
           displayXO[pattern[1]] == displayXO[pattern[2]]) {
-        winnerPattern.addAll(pattern);
         return displayXO[pattern[0]];
       }
     }
     return "";
   }
+  //
+  // /// Check Winner
+  // void _checkWinner() async{
+  //   winner = _evaluateBoard();
+  //   if (winner != "") {
+  //     freezeGame = true;
+  //     _updateWinnerResult(winner);
+  //   } else if (!displayXO.contains("")) {
+  //     freezeGame = true;
+  //     winner = AppStrings.draw;
+  //     if(widget.isSoundAllow){
+  //       /// Here we are Playing draw sound effect and stopping  previous sounds
+  //       _audioPlayer.stop();
+  //       await _audioPlayer.play(AssetSource(AppStrings.drawAudioPath));
+  //     }
+  //     showResult();
+  //
+  //   }
+  // }
+  /// ***** Check Winner Function ******* ///
+  void _checkWinner() async {
+    /// Here we are checking the first Row for winner
+    if (displayXO[0] == displayXO[1] &&
+        displayXO[1] == displayXO[2] &&
+        displayXO[0] != "") {
+      winner = displayXO[0];
 
-  /// Check Winner
-  void _checkWinner() async{
-    winner = _evaluateBoard();
-    if (winner != "") {
-      freezeGame = true;
+      /// Calling _updateWinnerResult for Win Count Increment
       _updateWinnerResult(winner);
-    } else if (!displayXO.contains("")) {
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([0, 1, 2]);
+      /// Here we are freezing the game as soon as anyOne wins
       freezeGame = true;
+
+      /// Here we are checking the Second Row for winner
+    } else if (displayXO[3] == displayXO[4] &&
+        displayXO[4] == displayXO[5] &&
+        displayXO[3] != "") {
+      winner = displayXO[3];
+
+      /// Calling _updateWinnerResult for Win Count Increment
+      _updateWinnerResult(winner);
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([3, 4, 5]);
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
+
+      /// Here we are checking the Third Row for winner
+    } else if (displayXO[6] == displayXO[7] &&
+        displayXO[7] == displayXO[8] &&
+        displayXO[6] != "") {
+      winner = displayXO[6];
+
+      /// Calling _updateWinnerResult for Win Count Increment
+      _updateWinnerResult(winner);
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([6, 7, 8]);
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
+
+      /// Here we are checking the First Column for winner
+    } else if (displayXO[0] == displayXO[3] &&
+        displayXO[3] == displayXO[6] &&
+        displayXO[0] != "") {
+      winner = displayXO[0];
+
+      /// Calling _updateWinnerResult for Win Count Increment
+      _updateWinnerResult(winner);
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([0, 3, 6]);
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
+
+      /// Here we are checking the Second Column for winner
+    } else if (displayXO[1] == displayXO[4] &&
+        displayXO[4] == displayXO[7] &&
+        displayXO[1] != "") {
+      winner = displayXO[1];
+
+      /// Calling _updateWinnerResult for Win Count Increment
+      _updateWinnerResult(winner);
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([1, 4, 7]);
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
+
+      /// Here we are checking the Third Column for winner
+    } else if (displayXO[2] == displayXO[5] &&
+        displayXO[5] == displayXO[8] &&
+        displayXO[2] != "") {
+      winner = displayXO[2];
+
+      /// Calling _updateWinnerResult for Win Count Increment
+      _updateWinnerResult(winner);
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([2, 5, 8]);
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
+
+      /// Here we are checking the Left to Right Diagonal for winner
+    } else if (displayXO[0] == displayXO[4] &&
+        displayXO[4] == displayXO[8] &&
+        displayXO[0] != "") {
+      winner = displayXO[0];
+
+      /// Calling _updateWinnerResult for Win Count Increment
+      _updateWinnerResult(winner);
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([0, 4, 8]);
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
+
+      /// Here we are checking the Right to Left Diagonal for winner
+    } else if (displayXO[2] == displayXO[4] &&
+        displayXO[4] == displayXO[6] &&
+        displayXO[2] != "") {
+      winner = displayXO[2];
+
+      /// Calling _updateWinnerResult for Win Count Increment
+      _updateWinnerResult(winner);
+
+      /// Here we are creating  pattern by adding all index's of the match winner
+      winnerPattern.addAll([2, 4, 6]);
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
+      /// Here we are checking The Draw (means nobody wins)
+    } else if (indexList.length == 9) {
       winner = AppStrings.draw;
 
       if(widget.isSoundAllow){
@@ -370,12 +495,14 @@ class _SinglePLayerPlayGameScreenState
         await _audioPlayer.play(AssetSource(AppStrings.drawAudioPath));
       }
 
-
+      ///Here We are Calling showResult function  to display result of our game
       showResult();
 
+      /// Here we are freezing the game as soon as anyOne wins
+      freezeGame = true;
     }
+    setState(() {});
   }
-
   /// Update Scores
   void _updateWinnerResult(String winner) async {
     _confettiController.play();
@@ -397,6 +524,7 @@ class _SinglePLayerPlayGameScreenState
       winner = "";
       freezeGame = false;
       xTurn = true;
+      isDelayed=false;
     });
   }
 
