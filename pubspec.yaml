@@ -53,15 +53,16 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
   # For Launcher Icon
-  flutter_launcher_icons: ^0.14.2
+  flutter_launcher_icons: ^0.14.0
 
 flutter_launcher_icons:
-    android: "launcher_icon"
-    ios: true
-    image_path: "assets/images/app_logo.png"
-    min_sdk_android: 21 # android min sdk min:16, default 21
-
-# For information on the generic Dart part of this file, see the
+  android: "launcher_icon"
+  ios: false
+  image_path: "assets/images/app_logo.png"
+  adaptive_icon_foreground: "assets/images/app_logo.png" # Set the foreground image (same or different from image_path)
+  adaptive_icon_background: "#5F8F3C"
+  remove_alpha_ios: true
+  min_sdk_android: 21 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
 # The following section is specific to Flutter packages.
