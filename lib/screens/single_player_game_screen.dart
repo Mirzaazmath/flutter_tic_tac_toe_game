@@ -41,116 +41,144 @@ class _SinglePLayerPlayGameScreenState
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).primaryColor,
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            children: [
-              // Scoreboard
-              Expanded(
-                flex: 1,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      children: [
-                        Text(AppStrings.playerX,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(color: Colors.white)),
-                        const SizedBox(height: 10),
-                        Text("$xCount",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.copyWith(color: Colors.white)),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        Text(AppStrings.computer,
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineMedium
-                                ?.copyWith(color: Colors.white)),
-                        const SizedBox(height: 10),
-                        Text("$oCount",
-                            style: Theme.of(context)
-                                .textTheme
-                                .displaySmall
-                                ?.copyWith(color: Colors.white)),
-                      ],
-                    ),
-                  ],
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title:  const Text(AppStrings.quitGameText),
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, true);
+                  },
+                  child: const Text(AppStrings.yes),
                 ),
-              ),
-              // Game Board
-              Expanded(
-                flex: 3,
-                child: AbsorbPointer(
-                  absorbing: freezeGame || isDelayed,
-                  child: GridView.builder(
-                    itemCount: displayXO.length,
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 3),
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () => _playerMove(index),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                                width: 5,
-                                color: Theme.of(context).primaryColor),
-                            color: winnerPattern.contains(index)
-                                ? Theme.of(context).primaryColorDark
-                                : Theme.of(context).primaryColorLight,
-                          ),
-                          alignment: Alignment.center,
-                          child: Text(
-                            displayXO[index],
-                            style: Theme.of(context)
-                                .textTheme
-                                .displayLarge
-                                ?.copyWith(
-                                    color: Theme.of(context).primaryColor,
-                                    fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      );
-                    },
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text(AppStrings.no),
+                ),
+              ],
+            );
+          },
+        );
+        return shouldPop!;
+      },
+      child: Scaffold(
+        backgroundColor: Theme.of(context).primaryColor,
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              children: [
+                // Scoreboard
+                Expanded(
+                  flex: 1,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        children: [
+                          Text(AppStrings.playerX,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(color: Colors.white)),
+                          const SizedBox(height: 10),
+                          Text("$xCount",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall
+                                  ?.copyWith(color: Colors.white)),
+                        ],
+                      ),
+                      Column(
+                        children: [
+                          Text(AppStrings.computer,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .headlineMedium
+                                  ?.copyWith(color: Colors.white)),
+                          const SizedBox(height: 10),
+                          Text("$oCount",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall
+                                  ?.copyWith(color: Colors.white)),
+                        ],
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              // Reset Button
-              Expanded(
-                flex: 1,
-                child: Column(
-                  children: [
-                    freezeGame
-                        ? const SizedBox()
-                        : Text(
-                            xTurn ? "${AppStrings.playerX} ${AppStrings.turn}" : AppStrings.computerThinking,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(color: Colors.white),
+                // Game Board
+                Expanded(
+                  flex: 3,
+                  child: AbsorbPointer(
+                    absorbing: freezeGame || isDelayed,
+                    child: GridView.builder(
+                      itemCount: displayXO.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () => _playerMove(index),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                  width: 5,
+                                  color: Theme.of(context).primaryColor),
+                              color: winnerPattern.contains(index)
+                                  ? Theme.of(context).primaryColorDark
+                                  : Theme.of(context).primaryColorLight,
+                            ),
+                            alignment: Alignment.center,
+                            child: Text(
+                              displayXO[index],
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayLarge
+                                  ?.copyWith(
+                                      color: Theme.of(context).primaryColor,
+                                      fontWeight: FontWeight.bold),
+                            ),
                           ),
-                    const SizedBox(height: 10),
-                    freezeGame
-                        ? ElevatedButton(
-                            onPressed: _clearBoard,
-                            child: const Text(AppStrings.playAgain),
-                          )
-                        : const SizedBox(),
-                  ],
+                        );
+                      },
+                    ),
+                  ),
                 ),
-              ),
-            ],
+                // Reset Button
+                Expanded(
+                  flex: 1,
+                  child: Column(
+                    children: [
+                      freezeGame
+                          ? const SizedBox()
+                          : Text(
+                              xTurn ? "${AppStrings.playerX} ${AppStrings.turn}" : AppStrings.computerThinking,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(color: Colors.white),
+                            ),
+                      const SizedBox(height: 10),
+                      freezeGame
+                          ? ElevatedButton(
+                              onPressed: _clearBoard,
+                              child: const Text(AppStrings.playAgain),
+                            )
+                          : const SizedBox(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
