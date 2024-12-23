@@ -9,7 +9,8 @@ import 'package:showcaseview/showcaseview.dart';
 
 class HomeScreen extends StatefulWidget {
   Function(int) newColorIndex;
-  HomeScreen({super.key, required this.newColorIndex});
+ final bool isFirstTimeUser;
+  HomeScreen({super.key, required this.newColorIndex,required this.isFirstTimeUser});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -23,11 +24,17 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) =>
-        Future.delayed(const Duration(milliseconds: 850), (){
-        /// Starting the ShowCase
-          ShowCaseWidget.of(context).startShowCase([_singlePlayerKey, _multiPlayerKey, _settingKey]);
-        }),);
+    /// Here we are checking first time user
+    if(widget.isFirstTimeUser){
+      /// if true
+      WidgetsBinding.instance.addPostFrameCallback((_) =>
+      /// With some delay
+          Future.delayed(const Duration(milliseconds: 850), (){
+            /// Starting the ShowCase
+            ShowCaseWidget.of(context).startShowCase([_singlePlayerKey, _multiPlayerKey, _settingKey]);
+          }),);
+    }
+
   }
 
   @override

@@ -47,6 +47,7 @@ class AppStrings {
   static const String spSound = "sound";
   static const String spMode = "mode";
   static const String spTheme = "theme";
+  static const String spFirstTimeUser = "firstTimeUser";
 
 /// *** Audio Path  *** ///
 static const String writeAudioPath = "audios/write.mp3";
