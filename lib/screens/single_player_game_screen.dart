@@ -347,6 +347,7 @@ class _SinglePLayerPlayGameScreenState
       if (displayXO[pattern[0]] != "" &&
           displayXO[pattern[0]] == displayXO[pattern[1]] &&
           displayXO[pattern[1]] == displayXO[pattern[2]]) {
+        winnerPattern.addAll(pattern);
         return displayXO[pattern[0]];
       }
     }
