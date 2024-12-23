@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:showcaseview/showcaseview.dart';
 import 'package:tic_tac_toe_game/constant/app_strings.dart';
 import 'package:tic_tac_toe_game/screens/home_screen.dart';
@@ -49,18 +50,22 @@ class _SplashScreenState extends State<SplashScreen> {
     _listKey.currentState?.insertItem(index);
   }
   /// *** Splash Screen Function *** ///
-  void _splashScreenLogic()  {
+  void _splashScreenLogic() async {
+    final SharedPreferences prefs =
+        await SharedPreferences.getInstance();
+    final bool? isFirstTimeUser = prefs.getBool(AppStrings.spFirstTimeUser);
     /// Here we are simple waiting for 3.5 seconds and performing navigation
     Future.delayed(const Duration(milliseconds: 3500), (){
       /// Navigating with pushReplacement
       /// Wrapping with Showcase
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=> ShowCaseWidget(
-        onFinish: (){
-          // Todo : Need to Implement Logic here
-          print("ShowCase Completed");
+        onFinish: ()async{
+          /// Here we are setting the spFirstTimeUser value to false
+          /// because we don't want to display show case again
+          await prefs.setBool(AppStrings.spFirstTimeUser, false);
         },
 
-        builder: (context)=> HomeScreen(newColorIndex: widget.newColorIndex))));
+        builder: (context)=> HomeScreen(newColorIndex: widget.newColorIndex,isFirstTimeUser: isFirstTimeUser??true,))));
     });
   }
 
