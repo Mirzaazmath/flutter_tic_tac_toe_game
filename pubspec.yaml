@@ -41,6 +41,8 @@ dependencies:
   confetti: ^0.8.0
   # For Local Data
   shared_preferences: ^2.3.3
+  # For Show Case View
+  showcaseview: ^3.0.0
 
 dev_dependencies:
   flutter_test:
