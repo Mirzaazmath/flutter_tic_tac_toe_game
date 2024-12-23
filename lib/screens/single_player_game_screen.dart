@@ -70,6 +70,11 @@ class _SinglePLayerPlayGameScreenState
       },
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
+        floatingActionButtonLocation:FloatingActionButtonLocation.startFloat ,
+        floatingActionButton: widget.isSoundAllow?const SizedBox():  FloatingActionButton(onPressed: null,
+        backgroundColor: Theme.of(context).primaryColorDark,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(100)),
+        child: Icon(Icons.volume_off,color: Theme.of(context).primaryColorLight,),),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(20),
