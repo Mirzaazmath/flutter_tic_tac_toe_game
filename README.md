@@ -9,6 +9,7 @@ A new Flutter project.
 * project_ui
 * game_playare_screen
 * splash_screen
+* home_screen
 
 
 ## project_resources
