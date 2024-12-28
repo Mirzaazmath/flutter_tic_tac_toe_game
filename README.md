@@ -10,6 +10,12 @@ A new Flutter project.
 * game_playare_screen
 * splash_screen
 * home_screen
+* setting_branch
+* single_player
+* constant
+* final_touch
+* show_case
+* main
 
 
 ## project_resources
